@@ -8,8 +8,9 @@ RUN apk add --no-cache dumb-init git
 ENV APP_DIR=/app
 WORKDIR $APP_DIR
 
-# Install OpenClaw globally (Node 22+ required per docs)
-RUN npm install -g openclaw@latest
+# Install OpenClaw globally (Node 22+ required per docs).
+# --ignore-scripts skips node-llama-cpp postinstall (native build); not needed for API providers (Anthropic, OpenRouter, etc.).
+RUN npm install -g openclaw@latest --ignore-scripts
 
 # Create dirs for config and workspace (entrypoint will write openclaw.json)
 RUN mkdir -p $APP_DIR/.openclaw/workspace
