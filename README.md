@@ -66,27 +66,6 @@ Use the image name in Hetzner/Inngest, e.g.:
 ```text
 ghcr.io/YOUR_ORG/clawdeploy-docker:latest
 ```
-
-## Deploy on Hetzner (one VM per user)
-
-Use [scripts/hetzner-cloud-init.sh](scripts/hetzner-cloud-init.sh) as the basis for Hetzner user-data. Your Inngest function (on Vercel) should:
-
-1. Create a Hetzner VM with this script as user-data.
-2. Replace the placeholders at the top of the script (or pass env) with the tenant’s values:
-   - `GHCR_IMAGE` – e.g. `ghcr.io/YOUR_ORG/clawdeploy-docker:latest`
-   - `TELEGRAM_BOT_TOKEN` – from your SaaS DB
-   - `TELEGRAM_ALLOW_FROM` – `*` or the user’s Telegram ID(s)
-   - `OPENCLAW_AGENTS_JSON` – optional extra channels
-3. After the VM boots, get its **public IP** from the Hetzner API and store it (e.g. as `openclawBaseUrl = "http://<IP>/"`) for the user and for Telegram (long-polling works by default; no webhook required).
-
-User-facing URL: **http://&lt;VM_PUBLIC_IP&gt;/**
-
-## Direct IP access (no domain)
-
-- Each tenant’s OpenClaw runs on one VM; the container listens on 18789, mapped to host **80**.
-- No DNS or reverse proxy in this setup; users and Telegram use the VM’s public IP over HTTP.
-- To add a domain or HTTPS later, put a reverse proxy (e.g. nginx/Caddy) or load balancer in front and point it at the VM.
-
 ## License
 
 Same as the repo / getsetclaw.
