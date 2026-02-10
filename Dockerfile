@@ -2,7 +2,7 @@
 # Config is built at runtime from env vars; no tenant-specific data in the image.
 FROM node:22-alpine
 
-RUN apk add --no-cache dumb-init
+RUN apk add --no-cache dumb-init git
 
 # OpenClaw state and config live under /app (HOME set at runtime)
 ENV APP_DIR=/app
