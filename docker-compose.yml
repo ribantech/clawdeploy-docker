@@ -1,0 +1,20 @@
+# Local run for OpenClaw (getsetclaw image). Map host 80 -> container 18789 for direct IP-style access.
+services:
+  openclaw:
+    build: .
+    ports:
+      - "80:18789"
+    environment:
+      - OPENCLAW_PORT=18789
+      - OPENCLAW_HOME=/app
+      - TELEGRAM_ENABLED=${TELEGRAM_ENABLED:-false}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - TELEGRAM_ALLOW_FROM=${TELEGRAM_ALLOW_FROM:-*}
+      - TELEGRAM_DM_POLICY=${TELEGRAM_DM_POLICY:-pairing}
+      - OPENCLAW_AGENTS_JSON=${OPENCLAW_AGENTS_JSON:-}
+      - OPENCLAW_MODEL_ID=${OPENCLAW_MODEL_ID:-}
+      - OPENCLAW_MODEL_ENV_KEY=${OPENCLAW_MODEL_ENV_KEY:-}
+      - OPENCLAW_MODEL_API_KEY=${OPENCLAW_MODEL_API_KEY:-}
+      - OPENCLAW_MODEL_PROVIDER_ID=${OPENCLAW_MODEL_PROVIDER_ID:-}
+      - OPENCLAW_MODEL_BASE_URL=${OPENCLAW_MODEL_BASE_URL:-}
+    restart: unless-stopped
