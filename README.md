@@ -15,20 +15,23 @@ Docker image that runs [OpenClaw](https://docs.clawd.bot/) (Node + openclaw). Us
 # Build
 docker build -t openclaw-node .
 
-# Run (gateway on host port 80)
+# Run (gateway on host port 80). Optional: bind-mount a host dir for persistent config/workspace.
 docker run -d --name openclaw -p 80:18789 \
+  -v "$(pwd)/.openclaw:/app/.openclaw" \
   -e TELEGRAM_ENABLED=true \
   -e TELEGRAM_BOT_TOKEN=your_bot_token \
   -e TELEGRAM_ALLOW_FROM='*' \
   openclaw-node
 ```
 
-Or with Compose:
+Or with Compose (bind-mounts `./.openclaw` so config and workspace persist on the host):
 
 ```bash
 cp .env.example .env   # set TELEGRAM_BOT_TOKEN etc.
 docker compose up -d
 ```
+
+The container mounts `./.openclaw` at `/app/.openclaw` (config, workspace, and state). Edit files on the host and restart the container to pick up config changes.
 
 Then open **http://localhost/** (or http://localhost:80). Health: the gateway serves its endpoints on that port.
 

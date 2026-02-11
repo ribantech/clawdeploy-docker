@@ -1,9 +1,12 @@
 # Local run for OpenClaw (getsetclaw image). Map host 80 -> container 18789 for direct IP-style access.
+# Bind-mount .openclaw so config and workspace persist on the host.
 services:
   openclaw:
     build: .
     ports:
       - "80:18789"
+    volumes:
+      - ./.openclaw:/app/.openclaw
     environment:
       - OPENCLAW_PORT=18789
       - OPENCLAW_HOME=/app
